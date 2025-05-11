@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+    <style>
+        body { font-family: Arial; background: #e6f2ff; padding: 20px; }
+        form { margin-bottom: 20px; }
+        .weather-box { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+    </style>
+</head>
+<body>
+    <h1>Check Real-time Weather</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Get Weather</button>
+    </form>
+
+    {% if weather_info %}
+    <h2>Weather in {{ weather_info.city }}, {{ weather_info.region }}, {{ weather_info.country }}</h2>
+    <p><strong>Local Time:</strong> {{ weather_info.local_time }}</p>
+    <img src="{{ weather_info.condition_icon }}" alt="weather icon">
+    <p><strong>Condition:</strong> {{ weather_info.condition_text }}</p>
+    <p><strong>Temperature:</strong> {{ weather_info.temperature_c }}°C (Feels like {{ weather_info.feelslike_c }}°C)</p>
+    <p><strong>Wind:</strong> {{ weather_info.wind_kph }} kph ({{ weather_info.wind_dir }})</p>
+    <p><strong>Gusts:</strong> {{ weather_info.gust_kph }} kph</p>
+    <p><strong>Pressure:</strong> {{ weather_info.pressure_mb }} mb</p>
+    
+    <p><strong>Humidity:</strong> {{ weather_info.humidity }}%</p>
+    <p><strong>Cloud Cover:</strong> {{ weather_info.cloud }}%</p>
+    
+    <p><strong>Visibility:</strong> {{ weather_info.vis_km }} km</p>
+    <p><strong>Last Updated:</strong> {{ weather_info.last_updated }}</p>
+{% endif %}
+</body>
+</html>
