@@ -16,28 +16,31 @@
     }
 
     /* Box styling for the header */
-    .heading-box {
-        background-color: rgba(0, 51, 102, 0.8); /* Deep blue background */
-        padding: 30px; /* Increased padding */
-        border-radius: 12px; /* Slightly rounded corners */
-        box-shadow: 0 0 15px #ccc; /* Stronger shadow */
-        margin-bottom: 40px; /* Increased bottom margin */
-    }
+   .heading-box {
+    background-color: rgba(0, 51, 102, 0.8);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px #ccc;
+    margin-bottom: 40px;
+    transition: all 0.4s ease-in-out; /* Smooth transition for changes */
+}
 
-    .heading-box h1 {
-        margin: 0;
-        color: white;
-        font-size: 48px; /* Increased font size */
-        font-weight: bold;
-    }
+.heading-box h1 {
+    margin: 0;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    transition: font-size 0.4s ease-in-out, color 0.4s ease-in-out; /* Text transition */
+}
 
-    .form-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 40px; /* Increased space below */
-    }
+.form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    transition: all 0.4s ease-in-out; /* Transition for layout or padding changes */
+}
 
     .weather-box {
         background: rgba(255, 255, 255, 0.8);
@@ -76,6 +79,8 @@
     /* Box styling for the city input form */
 .city-input-box {
     background-color: #ffffff;
+    font-weight: bold;
+
     padding: 20px;
     border-radius: 10px;
     border: 1px solid #d0e6f7;
@@ -91,6 +96,8 @@
 .city-input-box input {
     padding: 16px;
     font-size: 18px;
+    font-weight: bold;
+
     border-radius: 5px;
     border: 1px solid #d0e6f7;
     width: 300px; /* Set a fixed width */
@@ -100,6 +107,8 @@
 .city-input-box button {
     padding: 14px 24px;
     font-size: 18px;
+    font-weight: bold;
+
     background: #3399ff;
     color: white;
     border: none;
@@ -144,29 +153,29 @@
 
     {% if weather_info %}
     <div class="weather-box">
-        <h2 class="text-center">Weather in {{ weather_info.city }}, {{ weather_info.region }}, {{ weather_info.country }}</h2>
+        <h2 class="text-center">📍Weather in {{ weather_info.city }}, {{ weather_info.region }}, {{ weather_info.country }}</h2>
         <p class="text-center"><strong>Local Time:</strong> {{ weather_info.local_time }}</p>
         <div class="text-center">
             <img src="{{ weather_info.condition_icon }}" alt="weather icon" class="img-fluid mb-3">
-            <p><strong>Condition:</strong> {{ weather_info.condition_text }} (Code: {{ weather_info.condition_code }})</p>
+            <p><strong>🌤️Condition:</strong> {{ weather_info.condition_text }} (Code: {{ weather_info.condition_code }})</p>
         </div>
 
         <div class="weather-grid">
-            <div><strong>Temperature:</strong> {{ weather_info.temperature_c }}°C / {{ weather_info.temp_f }}°F</div>
-            <div><strong>Feels Like:</strong> {{ weather_info.feelslike_c }}°C / {{ weather_info.feelslike_f }}°F</div>
-            <div><strong>Wind:</strong> {{ weather_info.wind_kph }} kph / {{ weather_info.wind_mph }} mph ({{ weather_info.wind_dir }}, {{ weather_info.wind_degree }}°)</div>
-            <div><strong>Gusts:</strong> {{ weather_info.gust_kph }} kph / {{ weather_info.gust_mph }} mph</div>
-            <div><strong>Pressure:</strong> {{ weather_info.pressure_mb }} mb / {{ weather_info.pressure_in }} in</div>
-            <div><strong>Precipitation:</strong> {{ weather_info.precip_mm }} mm / {{ weather_info.precip_in }} in</div>
-            <div><strong>Humidity:</strong> {{ weather_info.humidity }}%</div>
-            <div><strong>Cloud Cover:</strong> {{ weather_info.cloud }}%</div>
-            <div><strong>Dew Point:</strong> {{ weather_info.dewpoint_c }}°C / {{ weather_info.dewpoint_f }}°F</div>
-            <div><strong>Wind Chill:</strong> {{ weather_info.windchill_c }}°C / {{ weather_info.windchill_f }}°F</div>
-            <div><strong>Heat Index:</strong> {{ weather_info.heatindex_c }}°C / {{ weather_info.heatindex_f }}°F</div>
-            <div><strong>UV Index:</strong> {{ weather_info.uv }}</div>
-            <div><strong>Visibility:</strong> {{ weather_info.vis_km }} km / {{ weather_info.vis_miles }} miles</div>
-            <div><strong>Is Day:</strong> {{ weather_info.is_day|yesno:"Yes,No" }}</div>
-            <div><strong>Last Updated:</strong> {{ weather_info.last_updated }}</div>
+            <div><strong>🌡️Temperature:</strong> {{ weather_info.temperature_c }}°C / {{ weather_info.temp_f }}°F</div>
+            <div><strong>🥵Feels Like:</strong> {{ weather_info.feelslike_c }}°C / {{ weather_info.feelslike_f }}°F</div>
+            <div><strong>💨Wind:</strong> {{ weather_info.wind_kph }} kph / {{ weather_info.wind_mph }} mph ({{ weather_info.wind_dir }}, {{ weather_info.wind_degree }}°)</div>
+            <div><strong>🌬️Gusts:</strong> {{ weather_info.gust_kph }} kph / {{ weather_info.gust_mph }} mph</div>
+            <div><strong>🌡️Pressure:</strong> {{ weather_info.pressure_mb }} mb / {{ weather_info.pressure_in }} in</div>
+            <div><strong>🌧️Precipitation:</strong> {{ weather_info.precip_mm }} mm / {{ weather_info.precip_in }} in</div>
+            <div><strong>💧Humidity:</strong> {{ weather_info.humidity }}%</div>
+            <div><strong>☁️Cloud Cover:</strong> {{ weather_info.cloud }}%</div>
+            <div><strong>🌫️Dew Point:</strong> {{ weather_info.dewpoint_c }}°C / {{ weather_info.dewpoint_f }}°F</div>
+            <div><strong>🥶Wind Chill:</strong> {{ weather_info.windchill_c }}°C / {{ weather_info.windchill_f }}°F</div>
+            <div><strong>🔥Heat Index:</strong> {{ weather_info.heatindex_c }}°C / {{ weather_info.heatindex_f }}°F</div>
+            <div><strong>🌞UV Index:</strong> {{ weather_info.uv }}</div>
+            <div><strong>👀Visibility:</strong> {{ weather_info.vis_km }} km / {{ weather_info.vis_miles }} miles</div>
+            <div><strong>🌙Is Day:</strong> {{ weather_info.is_day|yesno:"Yes,No" }}</div>
+            <div><strong>⏰Last Updated:</strong> {{ weather_info.last_updated }}</div>
         </div>
     </div>
     {% endif %}
