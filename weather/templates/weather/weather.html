@@ -1,98 +1,155 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJv4wo6f2d5e3ua8g9fDgf13Or2AghIhL4mZ0Xf2R9mxP95g2vw2xQbyCj20" crossorigin="anonymous">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #e6f2ff;
-            padding: 20px;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        background: url("{% static 'images/image.png' %}") no-repeat center center fixed;
+        background-size: cover;
+        padding: 20px;
+    }
 
-        .form-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
+    /* Box styling for the header */
+    .heading-box {
+        background-color: rgba(0, 51, 102, 0.8); /* Deep blue background */
+        padding: 30px; /* Increased padding */
+        border-radius: 12px; /* Slightly rounded corners */
+        box-shadow: 0 0 15px #ccc; /* Stronger shadow */
+        margin-bottom: 40px; /* Increased bottom margin */
+    }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
+    .heading-box h1 {
+        margin: 0;
+        color: white;
+        font-size: 48px; /* Increased font size */
+        font-weight: bold;
+    }
 
-        form p {
-            margin: 0;
-            text-align: center;
-        }
+    .form-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 40px; /* Increased space below */
+    }
 
-        button {
-            padding: 10px 16px;
-            font-size: 16px;
-            background: #3399ff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+    .weather-box {
+        background: rgba(255, 255, 255, 0.8);
+        padding: 30px; /* Increased padding */
+        border-radius: 12px; /* Rounded corners */
+        box-shadow: 0 0 15px #ccc; /* Stronger shadow */
+        max-width: 900px;
+        margin: auto;
+    }
 
-        button:hover {
-            background-color: #267acc;
-        }
+    .weather-box h2 {
+        margin-top: 0;
+        font-size: 32px; /* Increased font size */
+    }
 
-        .weather-box {
-            background: #fff;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #ccc;
-            max-width: 900px;
-            margin: auto;
-        }
+    .weather-box img {
+        vertical-align: middle;
+        margin-bottom: 15px; /* More space between image and text */
+    }
 
-        .weather-box h2 {
-            margin-top: 0;
-        }
+    .weather-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Increased minimum column size */
+        gap: 30px; /* More space between elements */
+        margin-top: 20px;
+    }
 
-        .weather-box img {
-            vertical-align: middle;
-            margin-bottom: 10px;
-        }
+    .weather-grid div {
+        background-color: #f5faff;
+        padding: 20px; /* Increased padding */
+        border-radius: 12px; /* Rounded corners */
+        border: 1px solid #d0e6f7;
+        font-size: 20px; /* Increased font size */
+    }
 
-        .weather-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
+    /* Box styling for the city input form */
+.city-input-box {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #d0e6f7;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: auto;
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-        .weather-grid div {
-            background-color: #f5faff;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #d0e6f7;
-        }
-    </style>
+.city-input-box input {
+    padding: 16px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 1px solid #d0e6f7;
+    width: 300px; /* Set a fixed width */
+    margin-bottom: 20px;
+}
+
+.city-input-box button {
+    padding: 14px 24px;
+    font-size: 18px;
+    background: #3399ff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: auto; /* Button size adjusts to content */
+    transition: background-color 0.3s ease;
+}
+
+    .city-input-box button:hover {
+        background-color: #267acc; /* Darker blue when hovered */
+    }
+
+    .city-input-box button:active {
+        background-color: #1a6499; /* Even darker on click */
+    }
+
+</style>
+
 </head>
 <body>
 
-    <div class="form-wrapper">
-        <h1>Check Real-time Weather</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Get Weather</button>
-        </form>
+    <div class="container text-center mt-5">
+        <!-- Real-Time Weather Monitoring System Heading -->
+        <div class="heading-box">
+            <h1 class="display-4 text-white">Real-Time Weather Monitoring System</h1>
+        </div>
+
+        <div class="form-wrapper mb-4">
+            <div class="city-input-box">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <label for="city" class="form-label">Enter City Name:</label>
+                        <input type="text" id="city" name="city" class="form-control" placeholder="Enter city" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Get Weather</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     {% if weather_info %}
     <div class="weather-box">
-        <h2>Weather in {{ weather_info.city }}, {{ weather_info.region }}, {{ weather_info.country }}</h2>
-        <p><strong>Local Time:</strong> {{ weather_info.local_time }}</p>
-        <img src="{{ weather_info.condition_icon }}" alt="weather icon">
-        <p><strong>Condition:</strong> {{ weather_info.condition_text }} (Code: {{ weather_info.condition_code }})</p>
+        <h2 class="text-center">Weather in {{ weather_info.city }}, {{ weather_info.region }}, {{ weather_info.country }}</h2>
+        <p class="text-center"><strong>Local Time:</strong> {{ weather_info.local_time }}</p>
+        <div class="text-center">
+            <img src="{{ weather_info.condition_icon }}" alt="weather icon" class="img-fluid mb-3">
+            <p><strong>Condition:</strong> {{ weather_info.condition_text }} (Code: {{ weather_info.condition_code }})</p>
+        </div>
 
         <div class="weather-grid">
             <div><strong>Temperature:</strong> {{ weather_info.temperature_c }}°C / {{ weather_info.temp_f }}°F</div>
@@ -114,5 +171,8 @@
     </div>
     {% endif %}
 
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gyb2T5pZlDdeF3tTCZSmKb5UsJzT2z5g2g39wFnw7TpSx0mPpJ" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0r2T6h19MNU4JFr7XkDkW9y2imwkeA9flVpyM8Tlhj5XX23x" crossorigin="anonymous"></script>
 </body>
 </html>
