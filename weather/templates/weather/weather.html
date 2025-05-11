@@ -3,34 +3,116 @@
 <head>
     <title>Weather App</title>
     <style>
-        body { font-family: Arial; background: #e6f2ff; padding: 20px; }
-        form { margin-bottom: 20px; }
-        .weather-box { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #e6f2ff;
+            padding: 20px;
+        }
+
+        .form-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        form p {
+            margin: 0;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 16px;
+            font-size: 16px;
+            background: #3399ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #267acc;
+        }
+
+        .weather-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .weather-box h2 {
+            margin-top: 0;
+        }
+
+        .weather-box img {
+            vertical-align: middle;
+            margin-bottom: 10px;
+        }
+
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .weather-grid div {
+            background-color: #f5faff;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #d0e6f7;
+        }
     </style>
 </head>
 <body>
-    <h1>Check Real-time Weather</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Get Weather</button>
-    </form>
+
+    <div class="form-wrapper">
+        <h1>Check Real-time Weather</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Get Weather</button>
+        </form>
+    </div>
 
     {% if weather_info %}
-    <h2>Weather in {{ weather_info.city }}, {{ weather_info.region }}, {{ weather_info.country }}</h2>
-    <p><strong>Local Time:</strong> {{ weather_info.local_time }}</p>
-    <img src="{{ weather_info.condition_icon }}" alt="weather icon">
-    <p><strong>Condition:</strong> {{ weather_info.condition_text }}</p>
-    <p><strong>Temperature:</strong> {{ weather_info.temperature_c }}°C (Feels like {{ weather_info.feelslike_c }}°C)</p>
-    <p><strong>Wind:</strong> {{ weather_info.wind_kph }} kph ({{ weather_info.wind_dir }})</p>
-    <p><strong>Gusts:</strong> {{ weather_info.gust_kph }} kph</p>
-    <p><strong>Pressure:</strong> {{ weather_info.pressure_mb }} mb</p>
-    
-    <p><strong>Humidity:</strong> {{ weather_info.humidity }}%</p>
-    <p><strong>Cloud Cover:</strong> {{ weather_info.cloud }}%</p>
-    
-    <p><strong>Visibility:</strong> {{ weather_info.vis_km }} km</p>
-    <p><strong>Last Updated:</strong> {{ weather_info.last_updated }}</p>
-{% endif %}
+    <div class="weather-box">
+        <h2>Weather in {{ weather_info.city }}, {{ weather_info.region }}, {{ weather_info.country }}</h2>
+        <p><strong>Local Time:</strong> {{ weather_info.local_time }}</p>
+        <img src="{{ weather_info.condition_icon }}" alt="weather icon">
+        <p><strong>Condition:</strong> {{ weather_info.condition_text }} (Code: {{ weather_info.condition_code }})</p>
+
+        <div class="weather-grid">
+            <div><strong>Temperature:</strong> {{ weather_info.temperature_c }}°C / {{ weather_info.temp_f }}°F</div>
+            <div><strong>Feels Like:</strong> {{ weather_info.feelslike_c }}°C / {{ weather_info.feelslike_f }}°F</div>
+            <div><strong>Wind:</strong> {{ weather_info.wind_kph }} kph / {{ weather_info.wind_mph }} mph ({{ weather_info.wind_dir }}, {{ weather_info.wind_degree }}°)</div>
+            <div><strong>Gusts:</strong> {{ weather_info.gust_kph }} kph / {{ weather_info.gust_mph }} mph</div>
+            <div><strong>Pressure:</strong> {{ weather_info.pressure_mb }} mb / {{ weather_info.pressure_in }} in</div>
+            <div><strong>Precipitation:</strong> {{ weather_info.precip_mm }} mm / {{ weather_info.precip_in }} in</div>
+            <div><strong>Humidity:</strong> {{ weather_info.humidity }}%</div>
+            <div><strong>Cloud Cover:</strong> {{ weather_info.cloud }}%</div>
+            <div><strong>Dew Point:</strong> {{ weather_info.dewpoint_c }}°C / {{ weather_info.dewpoint_f }}°F</div>
+            <div><strong>Wind Chill:</strong> {{ weather_info.windchill_c }}°C / {{ weather_info.windchill_f }}°F</div>
+            <div><strong>Heat Index:</strong> {{ weather_info.heatindex_c }}°C / {{ weather_info.heatindex_f }}°F</div>
+            <div><strong>UV Index:</strong> {{ weather_info.uv }}</div>
+            <div><strong>Visibility:</strong> {{ weather_info.vis_km }} km / {{ weather_info.vis_miles }} miles</div>
+            <div><strong>Is Day:</strong> {{ weather_info.is_day|yesno:"Yes,No" }}</div>
+            <div><strong>Last Updated:</strong> {{ weather_info.last_updated }}</div>
+        </div>
+    </div>
+    {% endif %}
+
 </body>
 </html>
