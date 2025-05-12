@@ -176,6 +176,21 @@
             <div><strong>👀Visibility:</strong> {{ weather_info.vis_km }} km / {{ weather_info.vis_miles }} miles</div>
             <div><strong>🌙Is Day:</strong> {{ weather_info.is_day|yesno:"Yes,No" }}</div>
             <div><strong>⏰Last Updated:</strong> {{ weather_info.last_updated }}</div>
+            <div class="air-quality mt-4">
+    <h3>Air Quality Index (AQI)</h3>
+<ul>
+    <li>CO: {{ weather_info.air_quality.co }}</li>
+    <li>NO2: {{ weather_info.air_quality.no2 }}</li>
+    <li>O3: {{ weather_info.air_quality.o3 }}</li>
+    <li>SO2: {{ weather_info.air_quality.so2 }}</li>
+    <li>PM2.5: {{ weather_info.air_quality.pm2_5 }}</li>
+    <li>PM10: {{ weather_info.air_quality.pm10 }}</li>
+    <li>US EPA Index: {{ weather_info.air_quality.us_epa_index }}</li>
+    <li>GB DEFRA Index: {{ weather_info.air_quality.gb_defra_index }}</li>
+</ul>
+
+</div>
+
         </div>
     </div>
     {% endif %}

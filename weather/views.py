@@ -9,11 +9,13 @@ from django.conf import settings
 API_KEY = '7cfc85bea65c48e69d3195316250905'  # from https://www.weatherapi.com/my/
 
 def get_weather_data(city):
-    url = f"http://api.weatherapi.com/v1/current.json?key={API_KEY}&q={city}"
+    # Add the 'aqi=yes' parameter to include air quality data
+    url = f"http://api.weatherapi.com/v1/current.json?key={API_KEY}&q={city}&aqi=yes"
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
     return None
+
 
 def weather_view(request):
     weather_info = None
@@ -28,6 +30,9 @@ def weather_view(request):
                 current = data['current']
                 location = data['location']
                 condition = current['condition']
+                
+                # Extract the air quality data from the response if available
+                air_quality_data = current.get('air_quality', {})
 
                 weather_info = {
                     'city': city,
@@ -64,6 +69,17 @@ def weather_view(request):
                     'gust_mph': current['gust_mph'],
                     'gust_kph': current['gust_kph'],
                     'last_updated': current['last_updated'],
+                    # Add air quality terms to the dictionary
+                    'air_quality': {
+                        'co': air_quality_data.get('co'),
+                        'no2': air_quality_data.get('no2'),
+                        'o3': air_quality_data.get('o3'),
+                        'so2': air_quality_data.get('so2'),
+                        'pm2_5': air_quality_data.get('pm2_5'),
+                        'pm10': air_quality_data.get('pm10'),
+                        'us_epa_index': air_quality_data.get('us-epa-index'),
+                        'gb_defra_index': air_quality_data.get('gb-defra-index'),
+                    }
                 }
 
                 saved_data = WeatherData.objects.create(
@@ -101,6 +117,15 @@ def weather_view(request):
                     gust_mph=current['gust_mph'],
                     gust_kph=current['gust_kph'],
                     last_updated=parse_datetime(current['last_updated']),
+                    air_quality_co=air_quality_data.get('co'),
+                    air_quality_no2=air_quality_data.get('no2'),
+                    air_quality_o3=air_quality_data.get('o3'),
+                    air_quality_so2=air_quality_data.get('so2'),
+                    air_quality_pm2_5=air_quality_data.get('pm2_5'),
+                    air_quality_pm10=air_quality_data.get('pm10'),
+                    air_quality_us_epa_index=air_quality_data.get('us-epa-index'),
+                    air_quality_gb_defra_index=air_quality_data.get('gb-defra-index'),
+                    
                 )
     else:
         form = CityForm()

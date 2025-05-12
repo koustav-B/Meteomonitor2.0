@@ -49,6 +49,15 @@ class WeatherData(models.Model):
     gust_kph = models.FloatField(default=0.0)
 
     last_updated = models.DateTimeField(default=None, null=True)
+     # Air Quality fields
+    air_quality_co = models.FloatField(null=True, blank=True)
+    air_quality_no2 = models.FloatField(null=True, blank=True)
+    air_quality_o3 = models.FloatField(null=True, blank=True)
+    air_quality_so2 = models.FloatField(null=True, blank=True)
+    air_quality_pm2_5 = models.FloatField(null=True, blank=True)
+    air_quality_pm10 = models.FloatField(null=True, blank=True)
+    air_quality_us_epa_index = models.IntegerField(null=True, blank=True)
+    air_quality_gb_defra_index = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.city} Weather at {self.last_updated}"
