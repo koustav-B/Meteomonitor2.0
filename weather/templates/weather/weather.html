@@ -125,6 +125,35 @@
     .city-input-box button:active {
         background-color: #1a6499; /* Even darker on click */
     }
+    .aqi-box {
+    background: rgba(255, 250, 240, 0.95);
+    padding: 25px;
+    margin-top: 40px;
+    border-radius: 12px;
+    border: 1px solid #f5cba7;
+    box-shadow: 0 0 15px #d6a87a;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.aqi-box h3 {
+    font-size: 28px;
+    color: #d35400;
+    margin-bottom: 20px;
+}
+
+.aqi-box ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.aqi-box li {
+    font-size: 18px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0e2d0;
+}
+
 
 </style>
 
@@ -176,20 +205,20 @@
             <div><strong>👀Visibility:</strong> {{ weather_info.vis_km }} km / {{ weather_info.vis_miles }} miles</div>
             <div><strong>🌙Is Day:</strong> {{ weather_info.is_day|yesno:"Yes,No" }}</div>
             <div><strong>⏰Last Updated:</strong> {{ weather_info.last_updated }}</div>
-            <div class="air-quality mt-4">
-    <h3>Air Quality Index (AQI)</h3>
-<ul>
-    <li>CO: {{ weather_info.air_quality.co }}</li>
-    <li>NO2: {{ weather_info.air_quality.no2 }}</li>
-    <li>O3: {{ weather_info.air_quality.o3 }}</li>
-    <li>SO2: {{ weather_info.air_quality.so2 }}</li>
-    <li>PM2.5: {{ weather_info.air_quality.pm2_5 }}</li>
-    <li>PM10: {{ weather_info.air_quality.pm10 }}</li>
-    <li>US EPA Index: {{ weather_info.air_quality.us_epa_index }}</li>
-    <li>GB DEFRA Index: {{ weather_info.air_quality.gb_defra_index }}</li>
-</ul>
-
+            <div class="aqi-box">
+    <h3>🌫️ Air Quality Index (AQI)</h3>
+    <ul>
+        <li><strong>CO:</strong> {{ weather_info.air_quality.co }}</li>
+        <li><strong>NO2:</strong> {{ weather_info.air_quality.no2 }}</li>
+        <li><strong>O3:</strong> {{ weather_info.air_quality.o3 }}</li>
+        <li><strong>SO2:</strong> {{ weather_info.air_quality.so2 }}</li>
+        <li><strong>PM2.5:</strong> {{ weather_info.air_quality.pm2_5 }}</li>
+        <li><strong>PM10:</strong> {{ weather_info.air_quality.pm10 }}</li>
+        <li><strong>US EPA Index:</strong> {{ weather_info.air_quality.us_epa_index }}</li>
+        <li><strong>GB DEFRA Index:</strong> {{ weather_info.air_quality.gb_defra_index }}</li>
+    </ul>
 </div>
+
 
         </div>
     </div>
