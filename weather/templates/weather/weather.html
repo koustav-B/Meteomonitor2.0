@@ -1,184 +1,71 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <title>Weather Monitoring System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJv4wo6f2d5e3ua8g9fDgf13Or2AghIhL4mZ0Xf2R9mxP95g2vw2xQbyCj20" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: url("{% static 'images/image.png' %}") no-repeat center center fixed;
-        background-size: cover;
-        padding: 20px;
-    }
-
-    /* Box styling for the header */
-   .heading-box {
-    background-color: rgba(0, 51, 102, 0.8);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px #ccc;
-    margin-bottom: 40px;
-    transition: all 0.4s ease-in-out; /* Smooth transition for changes */
-}
-
-.heading-box h1 {
-    margin: 0;
-    color: white;
-    font-size: 48px;
-    font-weight: bold;
-    transition: font-size 0.4s ease-in-out, color 0.4s ease-in-out; /* Text transition */
-}
-
-.form-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 40px;
-    transition: all 0.4s ease-in-out; /* Transition for layout or padding changes */
-}
-
-    .weather-box {
-        background: rgba(255, 255, 255, 0.8);
-        padding: 30px; /* Increased padding */
-        border-radius: 12px; /* Rounded corners */
-        box-shadow: 0 0 15px #ccc; /* Stronger shadow */
-        max-width: 900px;
-        margin: auto;
-    }
-
-    .weather-box h2 {
-        margin-top: 0;
-        font-size: 32px; /* Increased font size */
-    }
-
-    .weather-box img {
-        vertical-align: middle;
-        margin-bottom: 15px; /* More space between image and text */
-    }
-
-    .weather-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Increased minimum column size */
-        gap: 30px; /* More space between elements */
-        margin-top: 20px;
-    }
-
-    .weather-grid div {
-        background-color: #f5faff;
-        padding: 20px; /* Increased padding */
-        border-radius: 12px; /* Rounded corners */
-        border: 1px solid #d0e6f7;
-        font-size: 20px; /* Increased font size */
-    }
-
-    /* Box styling for the city input form */
-.city-input-box {
+        body {
+            background: linear-gradient(to bottom, #87CEFA, #f0f8ff);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 900px;
+            margin-top: 40px;
+        }
+        .weather-box {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .aqi-box {
+            margin-top: 30px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .chart-container {
+            margin-top: 40px;
+        }
+        .weather-card {
     background-color: #ffffff;
-    font-weight: bold;
-
-    padding: 20px;
+    border: 1px solid #dee2e6;
     border-radius: 10px;
-    border: 1px solid #d0e6f7;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    width: auto;
-    max-width: 500px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-align: center;
 }
 
-.city-input-box input {
-    padding: 16px;
-    font-size: 18px;
-    font-weight: bold;
-
-    border-radius: 5px;
-    border: 1px solid #d0e6f7;
-    width: 300px; /* Set a fixed width */
-    margin-bottom: 20px;
-}
-
-.city-input-box button {
-    padding: 14px 24px;
-    font-size: 18px;
-    font-weight: bold;
-
-    background: #3399ff;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    width: auto; /* Button size adjusts to content */
-    transition: background-color 0.3s ease;
-}
-
-    .city-input-box button:hover {
-        background-color: #267acc; /* Darker blue when hovered */
-    }
-
-    .city-input-box button:active {
-        background-color: #1a6499; /* Even darker on click */
-    }
-    .aqi-box {
-    background: rgba(255, 250, 240, 0.95);
-    padding: 25px;
-    margin-top: 40px;
-    border-radius: 12px;
-    border: 1px solid #f5cba7;
-    box-shadow: 0 0 15px #d6a87a;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.aqi-box h3 {
-    font-size: 28px;
-    color: #d35400;
-    margin-bottom: 20px;
-}
-
-.aqi-box ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-.aqi-box li {
-    font-size: 18px;
-    padding: 8px 0;
-    border-bottom: 1px solid #f0e2d0;
-}
-
-
-</style>
-
+    </style>
 </head>
 <body>
-
-    <div class="container text-center mt-5">
-        <!-- Real-Time Weather Monitoring System Heading -->
-        <div class="heading-box">
-            <h1 class="display-4 text-white">Real-Time Weather Monitoring System</h1>
-        </div>
-
-        <div class="form-wrapper mb-4">
-            <div class="city-input-box">
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="form-group mb-3">
-                        <label for="city" class="form-label">Enter City Name:</label>
-                        <input type="text" id="city" name="city" class="form-control" placeholder="Enter city" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Get Weather</button>
-                </form>
-            </div>
-        </div>
+<div class="container">
+    <div class="text-center mb-4">
+        <h1>🌦️ Weather Monitoring System</h1>
+        <p class="text-muted">Enter a city name to get current weather data and analytics</p>
     </div>
+
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        <div class="input-group">
+            <input type="text" class="form-control" name="city" placeholder="Enter city name" required>
+            <button type="submit" class="btn btn-primary">Get Weather</button>
+        </div>
+    </form>
 
     {% if weather_info %}
     <div class="weather-box">
@@ -190,42 +77,298 @@
         </div>
 
         <div class="weather-grid">
-            <div><strong>🌡️Temperature:</strong> {{ weather_info.temperature_c }}°C / {{ weather_info.temp_f }}°F</div>
-            <div><strong>🥵Feels Like:</strong> {{ weather_info.feelslike_c }}°C / {{ weather_info.feelslike_f }}°F</div>
-            <div><strong>💨Wind:</strong> {{ weather_info.wind_kph }} kph / {{ weather_info.wind_mph }} mph ({{ weather_info.wind_dir }}, {{ weather_info.wind_degree }}°)</div>
-            <div><strong>🌬️Gusts:</strong> {{ weather_info.gust_kph }} kph / {{ weather_info.gust_mph }} mph</div>
-            <div><strong>🌡️Pressure:</strong> {{ weather_info.pressure_mb }} mb / {{ weather_info.pressure_in }} in</div>
-            <div><strong>🌧️Precipitation:</strong> {{ weather_info.precip_mm }} mm / {{ weather_info.precip_in }} in</div>
-            <div><strong>💧Humidity:</strong> {{ weather_info.humidity }}%</div>
-            <div><strong>☁️Cloud Cover:</strong> {{ weather_info.cloud }}%</div>
-            <div><strong>🌫️Dew Point:</strong> {{ weather_info.dewpoint_c }}°C / {{ weather_info.dewpoint_f }}°F</div>
-            <div><strong>🥶Wind Chill:</strong> {{ weather_info.windchill_c }}°C / {{ weather_info.windchill_f }}°F</div>
-            <div><strong>🔥Heat Index:</strong> {{ weather_info.heatindex_c }}°C / {{ weather_info.heatindex_f }}°F</div>
-            <div><strong>🌞UV Index:</strong> {{ weather_info.uv }}</div>
-            <div><strong>👀Visibility:</strong> {{ weather_info.vis_km }} km / {{ weather_info.vis_miles }} miles</div>
-            <div><strong>🌙Is Day:</strong> {{ weather_info.is_day|yesno:"Yes,No" }}</div>
-            <div><strong>⏰Last Updated:</strong> {{ weather_info.last_updated }}</div>
-            <div class="aqi-box">
-    <h3>🌫️ Air Quality Index (AQI)</h3>
-    <ul>
-        <li><strong>CO:</strong> {{ weather_info.air_quality.co }}</li>
-        <li><strong>NO2:</strong> {{ weather_info.air_quality.no2 }}</li>
-        <li><strong>O3:</strong> {{ weather_info.air_quality.o3 }}</li>
-        <li><strong>SO2:</strong> {{ weather_info.air_quality.so2 }}</li>
-        <li><strong>PM2.5:</strong> {{ weather_info.air_quality.pm2_5 }}</li>
-        <li><strong>PM10:</strong> {{ weather_info.air_quality.pm10 }}</li>
-        <li><strong>US EPA Index:</strong> {{ weather_info.air_quality.us_epa_index }}</li>
-        <li><strong>GB DEFRA Index:</strong> {{ weather_info.air_quality.gb_defra_index }}</li>
-    </ul>
+    <div class="weather-card"><strong>🌡️Temperature:</strong><br> {{ weather_info.temperature_c }}°C / {{ weather_info.temp_f }}°F</div>
+    <div class="weather-card"><strong>🥵Feels Like:</strong><br> {{ weather_info.feelslike_c }}°C / {{ weather_info.feelslike_f }}°F</div>
+    <div class="weather-card"><strong>💨Wind:</strong><br> {{ weather_info.wind_kph }} kph / {{ weather_info.wind_mph }} mph ({{ weather_info.wind_dir }}, {{ weather_info.wind_degree }}°)</div>
+    <div class="weather-card"><strong>🌬️Gusts:</strong><br> {{ weather_info.gust_kph }} kph / {{ weather_info.gust_mph }} mph</div>
+    <div class="weather-card"><strong>🌡️Pressure:</strong><br> {{ weather_info.pressure_mb }} mb / {{ weather_info.pressure_in }} in</div>
+    <div class="weather-card"><strong>🌧️Precipitation:</strong><br> {{ weather_info.precip_mm }} mm / {{ weather_info.precip_in }} in</div>
+    <div class="weather-card"><strong>💧Humidity:</strong><br> {{ weather_info.humidity }}%</div>
+    <div class="weather-card"><strong>☁️Cloud Cover:</strong><br> {{ weather_info.cloud }}%</div>
+    <div class="weather-card"><strong>🌫️Dew Point:</strong><br> {{ weather_info.dewpoint_c }}°C / {{ weather_info.dewpoint_f }}°F</div>
+    <div class="weather-card"><strong>🥶Wind Chill:</strong><br> {{ weather_info.windchill_c }}°C / {{ weather_info.windchill_f }}°F</div>
+    <div class="weather-card"><strong>🔥Heat Index:</strong><br> {{ weather_info.heatindex_c }}°C / {{ weather_info.heatindex_f }}°F</div>
+    <div class="weather-card"><strong>🌞UV Index:</strong><br> {{ weather_info.uv }}</div>
+    <div class="weather-card"><strong>👀Visibility:</strong><br> {{ weather_info.vis_km }} km / {{ weather_info.vis_miles }} miles</div>
+    <div class="weather-card"><strong>🌙Is Day:</strong><br> {{ weather_info.is_day|yesno:"Yes,No" }}</div>
+    <div class="weather-card"><strong>⏰Last Updated:</strong><br> {{ weather_info.last_updated }}</div>
 </div>
 
 
+        <div class="aqi-box">
+    <h3 class="text-center">🌫️ Air Quality Index (AQI)</h3>
+    <div class="weather-grid">
+        <div class="weather-card"><strong>CO:</strong><br> {{ weather_info.air_quality.co }}</div>
+        <div class="weather-card"><strong>NO₂:</strong><br> {{ weather_info.air_quality.no2 }}</div>
+        <div class="weather-card"><strong>O₃:</strong><br> {{ weather_info.air_quality.o3 }}</div>
+        <div class="weather-card"><strong>SO₂:</strong><br> {{ weather_info.air_quality.so2 }}</div>
+        <div class="weather-card"><strong>PM2.5:</strong><br> {{ weather_info.air_quality.pm2_5 }}</div>
+        <div class="weather-card"><strong>PM10:</strong><br> {{ weather_info.air_quality.pm10 }}</div>
+        <div class="weather-card"><strong>US EPA Index:</strong><br> {{ weather_info.air_quality.us_epa_index }}</div>
+        <div class="weather-card"><strong>GB DEFRA Index:</strong><br> {{ weather_info.air_quality.gb_defra_index }}</div>
+    </div>
+</div>
+
+
+        <!-- Chart Section -->
+        <div class="chart-container">
+            <h4 class="text-center">📊 Temperature Metrics Overview</h4>
+            <canvas id="tempChart" width="400" height="200"></canvas>
         </div>
+        <!-- Chart 2: Humidity & Precipitation -->
+<div class="chart-container">
+    <h4 class="text-center">💧 Humidity & Precipitation</h4>
+    <canvas id="humidityChart" width="400" height="200"></canvas>
+</div>
+
+<!-- Chart 3: Wind Speed vs Gust -->
+<div class="chart-container">
+    <h4 class="text-center">💨 Wind Speed vs Gusts</h4>
+    <canvas id="windChart" width="400" height="200"></canvas>
+</div>
+
+<!-- Chart 4: Pressure Comparison -->
+<div class="chart-container">
+    <h4 class="text-center">🌡️ Pressure (mb vs in)</h4>
+    <canvas id="pressureChart" width="400" height="200"></canvas>
+</div>
+
+<!-- Chart 5: Air Quality Indicators -->
+<div class="chart-container">
+    <h4 class="text-center">🌫️ Air Quality Indicators</h4>
+    <canvas id="aqiChart" width="400" height="200"></canvas>
+</div>
+<!-- Chart 6: AQI Index Over Time or Categories -->
+<div class="chart-container">
+    <h4 class="text-center">📈 AQI Index Overview</h4>
+    <canvas id="aqiIndexChart" width="400" height="200"></canvas>
+</div>
+
+
+
+
     </div>
     {% endif %}
+</div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gyb2T5pZlDdeF3tTCZSmKb5UsJzT2z5g2g39wFnw7TpSx0mPpJ" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0r2T6h19MNU4JFr7XkDkW9y2imwkeA9flVpyM8Tlhj5XX23x" crossorigin="anonymous"></script>
+<!-- Chart.js for Weather Chart -->
+{% if weather_info %}
+<script>
+    const tempData = {
+        labels: ['Temperature', 'Feels Like', 'Dew Point', 'Wind Chill', 'Heat Index'],
+        datasets: [{
+            label: 'Temperature Metrics (°C)',
+            data: [
+                {{ weather_info.temperature_c }},
+                {{ weather_info.feelslike_c }},
+                {{ weather_info.dewpoint_c }},
+                {{ weather_info.windchill_c }},
+                {{ weather_info.heatindex_c }}
+            ],
+            backgroundColor: [
+                '#4e79a7',
+                '#f28e2b',
+                '#e15759',
+                '#76b7b2',
+                '#59a14f'
+            ],
+            borderColor: '#333',
+            borderWidth: 1
+        }]
+    };
+
+    const config = {
+        type: 'bar',
+        data: tempData,
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Comparison of Temperature-Related Metrics'
+                },
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 5
+                    }
+                }
+            }
+        }
+    };
+
+    new Chart(
+        document.getElementById('tempChart'),
+        config
+    );
+</script>
+<script>
+    // Chart 2: Humidity & Precipitation
+    new Chart(document.getElementById('humidityChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Humidity (%)', 'Precipitation (mm)'],
+            datasets: [{
+                label: 'Humidity & Precipitation',
+                data: [{{ weather_info.humidity }}, {{ weather_info.precip_mm }}],
+                backgroundColor: ['#00aaff', '#ffaa00']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'Humidity vs Precipitation' },
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Chart 3: Wind Speed & Gust
+    new Chart(document.getElementById('windChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Wind (kph)', 'Gust (kph)'],
+            datasets: [{
+                label: 'Wind Speeds',
+                data: [{{ weather_info.wind_kph }}, {{ weather_info.gust_kph }}],
+                backgroundColor: ['#8884d8', '#82ca9d']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'Wind Speed vs Gusts' },
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Chart 4: Pressure Comparison
+    new Chart(document.getElementById('pressureChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Pressure (mb)', 'Pressure (in)'],
+            datasets: [{
+                label: 'Pressure',
+                data: [{{ weather_info.pressure_mb }}, {{ weather_info.pressure_in }}],
+                backgroundColor: ['#ff6384', '#36a2eb']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: 'Pressure in mb vs in' },
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Chart 5: Air Quality Indicators
+    new Chart(document.getElementById('aqiChart'), {
+        type: 'radar',
+        data: {
+            labels: ['CO', 'NO2', 'O3', 'SO2', 'PM2.5', 'PM10'],
+            datasets: [{
+                label: 'Air Quality Levels',
+                data: [
+                    {{ weather_info.air_quality.co }},
+                    {{ weather_info.air_quality.no2 }},
+                    {{ weather_info.air_quality.o3 }},
+                    {{ weather_info.air_quality.so2 }},
+                    {{ weather_info.air_quality.pm2_5 }},
+                    {{ weather_info.air_quality.pm10 }}
+                ],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Air Quality Indicators'
+                }
+            },
+            scales: {
+                r: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+<script>
+    // Chart 6: AQI Index Line Chart
+    new Chart(document.getElementById('aqiIndexChart'), {
+        type: 'line',
+        data: {
+            labels: ['CO', 'NO₂', 'O₃', 'SO₂', 'PM2.5', 'PM10'],
+            datasets: [{
+                label: 'Air Quality Index Levels',
+                data: [
+                    {{ weather_info.air_quality.co }},
+                    {{ weather_info.air_quality.no2 }},
+                    {{ weather_info.air_quality.o3 }},
+                    {{ weather_info.air_quality.so2 }},
+                    {{ weather_info.air_quality.pm2_5 }},
+                    {{ weather_info.air_quality.pm10 }}
+                ],
+                borderColor: '#28a745',
+                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                fill: true,
+                tension: 0.3,
+                pointBackgroundColor: '#28a745',
+                pointBorderColor: '#155724',
+                pointRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Line Graph of Air Quality Index (AQI) Indicators'
+                },
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Concentration (μg/m³ or ppm)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Pollutants'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+
+{% endif %}
 </body>
 </html>

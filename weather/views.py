@@ -129,5 +129,4 @@ def weather_view(request):
                 )
     else:
         form = CityForm()
-
     return render(request, 'weather/weather.html', {'form': form, 'weather_info': weather_info})
