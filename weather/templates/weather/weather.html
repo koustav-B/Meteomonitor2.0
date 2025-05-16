@@ -12,43 +12,144 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        body {
-            background: linear-gradient(to bottom, #87CEFA, #f0f8ff);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .container {
-            max-width: 900px;
-            margin-top: 40px;
-        }
-        .weather-box {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .weather-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .aqi-box {
-            margin-top: 30px;
-            background-color: #f9f9f9;
-            padding: 15px;
-            border-radius: 10px;
-        }
-        .chart-container {
-            margin-top: 40px;
-        }
-        .weather-card {
+       /* --- BODY & CONTAINER --- */
+body {
+    background: linear-gradient(to bottom, #87CEFA, #f0f8ff);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    color: #2c3e50;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto 60px;
+    padding: 0 20px;
+}
+
+/* --- WEATHER BOX --- */
+.weather-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px 45px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    border: 1px solid #d3dafb;
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+    cursor: default;
+}
+
+.weather-box:hover {
+    box-shadow: 0 16px 45px rgba(0,0,0,0.18);
+    transform: translateY(-8px);
+}
+.weather-params-box {
+    margin-top: 30px;
+    background-color: #e6f0ff;       /* Light blue background */
+    padding: 25px 30px;
+    border-radius: 16px;
+    border: 1px solid #a3c0ff;      /* Soft blue border */
+    box-shadow: 0 5px 18px rgba(50, 100, 200, 0.12);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: #1c2f6f;                 /* Dark blue text */
+}
+
+
+/* --- WEATHER GRID --- */
+.weather-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 35px;
+}
+
+/* --- AQI BOX --- */
+.aqi-box {
+    margin-top: 45px;
+    background-color: #e6efff;
+    padding: 30px;
+    border-radius: 18px;
+    border: 1px solid #aac7ff;
+    box-shadow: 0 6px 20px rgba(0, 50, 150, 0.12);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #1a2a6c;
+}
+
+/* --- CHART CONTAINER --- */
+.chart-container {
+    margin-top: 60px;
+}
+
+/* --- WEATHER CARD (unchanged as per your request) --- */
+.weather-card {
     background-color: #ffffff;
-    border: 1px solid #dee2e6;
+    border: 1px solid black;
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     text-align: center;
 }
+
+/* --- HEADINGS & TEXT --- */
+h1, h2, h3 {
+    color: #1b2a57;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+p {
+    color: #4a5a7a;
+    font-size: 1rem;
+}
+
+/* --- BUTTONS (if you have any) --- */
+button {
+    background-color: #3a7bd5;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 12px 25px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(58, 123, 213, 0.4);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background-color: #2c62b7;
+    box-shadow: 0 7px 20px rgba(44, 98, 183, 0.6);
+}
+
+/* --- LINKS --- */
+a {
+    color: #3a7bd5;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #2c62b7;
+    text-decoration: underline;
+}
+
+/* --- RESPONSIVE TWEAKS --- */
+@media (max-width: 480px) {
+    .weather-box {
+        padding: 30px 25px;
+    }
+
+    .weather-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
 
     </style>
 </head>
@@ -143,11 +244,35 @@
     <h4 class="text-center">📈 AQI Index Overview</h4>
     <canvas id="aqiIndexChart" width="400" height="200"></canvas>
 </div>
+<!-- Chart 7 Visibility & Cloud Cover -->
+<div class="chart-container">
+    <h4 class="text-center">👁️ Visibility & Cloud Cover</h4>
+    <canvas id="visibilityChart" width="400" height="200"></canvas>
+</div>
 
+<!-- Chart 8 Wind Compass -->
+<div class="chart-container">
+    <h4 class="text-center">🧭 Wind Compass</h4>
+    <canvas id="windCompassChart" width="400" height="200"></canvas>
+</div>
 
-
-
+<!-- Chart 9: Key Metrics Overview -->
+<div class="chart-container">
+    <h4 class="text-center">📉 Key Metrics Overview</h4>
+    <canvas id="metricsLineChart" width="400" height="200"></canvas>
+</div>
+<!-- Chart 10: aqiPieChart Overview -->
+<div class="chart-container">
+    <h4 class="text-center">📉 aqiPieChart</h4>
+    <canvas id="aqiPieChart" width="400" height="200"></canvas>
     </div>
+    <!-- Chart 11: StackChart Overview -->
+<div class="chart-container">
+    <h4 class="text-center">📉 StackChart</h4>
+    <canvas id="stackedAreaChart" width="600" height="400"></canvas>
+</div>
+
+
     {% endif %}
 </div>
 
@@ -367,8 +492,227 @@
         }
     });
 </script>
+<script>
+    new Chart(document.getElementById('visibilityChart'), {
+    type: 'polarArea',
+    data: {
+        labels: ['Visibility (km)', 'Cloud Cover (%)', 'Humidity (%)'],
+        datasets: [{
+            data: [{{ weather_info.vis_km }}, {{ weather_info.cloud }}, {{ weather_info.humidity }}],
+            backgroundColor: ['#43aa8b', '#577590', '#f8961e']
+        }]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Visibility vs Cloud vs Humidity'
+            }
+        }
+    }
+});
+</script>
+<script>
+    new Chart(document.getElementById('windCompassChart'), {
+    type: 'radar',
+    data: {
+        labels: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'],
+        datasets: [{
+            label: 'Wind Strength',
+            data: [0, 0, 0, 0, 0, 0, 0, 0].map((v, i) =>
+                '{{ weather_info.wind_dir }}'.includes(['N','NE','E','SE','S','SW','W','NW'][i]) ? {{ weather_info.wind_kph }} : 0
+            ),
+            backgroundColor: 'rgba(70,130,180, 0.2)',
+            borderColor: '#4682b4',
+            pointBackgroundColor: '#4682b4'
+        }]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Wind Direction Strength Radar'
+            }
+        },
+        scales: {
+            r: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+<script>
+    new Chart(document.getElementById('metricsLineChart'), {
+    type: 'line',
+    data: {
+        labels: ['Temperature', 'Feels Like', 'Humidity', 'Pressure', 'UV Index'],
+        datasets: [{
+            label: 'Weather Metrics',
+            data: [
+                {{ weather_info.temperature_c }},
+                {{ weather_info.feelslike_c }},
+                {{ weather_info.humidity }},
+                {{ weather_info.pressure_mb }},
+                {{ weather_info.uv }}
+            ],
+            fill: false,
+            borderColor: '#ff6f61',
+            tension: 0.3
+        }]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Various Metrics Trend'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+<canvas id="aqiPieChart" width="400" height="400"></canvas>
 
+<script>
+    new Chart(document.getElementById('aqiPieChart'), {
+        type: 'pie',
+        data: {
+            labels: ['CO', 'NO₂', 'O₃', 'SO₂', 'PM2.5', 'PM10'],
+            datasets: [{
+                data: [
+                    {{ weather_info.air_quality.co }},
+                    {{ weather_info.air_quality.no2 }},
+                    {{ weather_info.air_quality.o3 }},
+                    {{ weather_info.air_quality.so2 }},
+                    {{ weather_info.air_quality.pm2_5 }},
+                    {{ weather_info.air_quality.pm10 }}
+                ],
+                backgroundColor: [
+                    '#ff6384', '#36a2eb', '#cc65fe',
+                    '#ffce56', '#2ecc71', '#e74c3c'
+                ]
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'AQI Pollutant Breakdown'
+                }
+            }
+        }
+    });
+</script>
+<canvas id="stackedAreaChart" width="600" height="400"></canvas>
 
+<script>
+const stackedAreaData = {
+    labels: [
+        '6 AM', '9 AM', '12 PM', '3 PM', '6 PM', '9 PM', '12 AM', '3 AM'
+    ],  // Example time slots - replace with your actual timestamps if you have them
+    datasets: [
+        {
+            label: 'Temperature (°C)',
+            data: [15, 18, 23, 27, 25, 20, 17, 14],  // replace with actual data
+            borderColor: '#f94144',
+            backgroundColor: 'rgba(249, 65, 68, 0.5)',
+            fill: true,
+            stack: 'Stack 0',
+            tension: 0.4
+        },
+        {
+            label: 'Humidity (%)',
+            data: [60, 55, 50, 45, 50, 60, 65, 70],  // replace with actual data
+            borderColor: '#577590',
+            backgroundColor: 'rgba(87, 117, 144, 0.5)',
+            fill: true,
+            stack: 'Stack 0',
+            tension: 0.4
+        },
+        {
+            label: 'Pressure (mb)',
+            data: [1012, 1013, 1014, 1015, 1014, 1013, 1012, 1011],  // replace with actual data
+            borderColor: '#90be6d',
+            backgroundColor: 'rgba(144, 190, 109, 0.5)',
+            fill: true,
+            stack: 'Stack 0',
+            tension: 0.4
+        }
+    ]
+};
+
+const stackedAreaConfig = {
+    type: 'line',
+    data: stackedAreaData,
+    options: {
+        scales: {
+            y: {
+                stacked: true,
+                beginAtZero: false,
+                title: {
+                    display: true,
+                    text: 'Value'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Time'
+                }
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Stacked Area Chart: Temperature, Humidity, Pressure over Time'
+            }
+        }
+    }
+};
+
+new Chart(document.getElementById('stackedAreaChart'), stackedAreaConfig);
+</script>
+<canvas id="tempGauge" width="400" height="200"></canvas>
+<canvas id="humidityGauge" width="400" height="200"></canvas>
+<script>
+function createGaugeChart(canvasId, label, value, maxValue, color) {
+    new Chart(document.getElementById(canvasId), {
+        type: 'doughnut',
+        data: {
+            labels: [label, 'Remaining'],
+            datasets: [{
+                data: [value, maxValue - value],
+                backgroundColor: [color, '#e0e0e0'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            rotation: -90 * (Math.PI / 180),
+            circumference: 180 * (Math.PI / 180),
+            cutout: '80%',
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: false },
+                title: {
+                    display: true,
+                    text: `${label}: ${value}`
+                }
+            }
+        }
+    });
+}
+
+// Example: Temp gauge from 0 to 50 °C
+createGaugeChart('tempGauge', 'Temperature (°C)', {{ weather_info.temp_c }}, 50, '#f94144');
+
+// Example: Humidity gauge from 0 to 100%
+createGaugeChart('humidityGauge', 'Humidity (%)', {{ weather_info.humidity }}, 100, '#577590');
+</script>
 {% endif %}
 </body>
 </html>
